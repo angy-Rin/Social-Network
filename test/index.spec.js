@@ -68,6 +68,7 @@ describe('signup', () => {
     expect(onNavigate).toHaveBeenCalledWith('/signin');
   });
 
+  // eslint-disable-next-line jest/no-focused-tests
   it('authFunction debe ser llamado cuando se hace click en el botón de registrarse', () => {
     const onNavigate = jest.fn();
     const signupSection = signup(onNavigate);
@@ -76,6 +77,7 @@ describe('signup', () => {
     const passwordInput = signupSection.querySelector('#userPassword');
     const emailError = signupSection.querySelector('#errorEmailMessage');
     const passwordError = signupSection.querySelector('#errorPassMessage');
+    const userInput = signupSection.querySelector('input');
 
     // Click the register button
     btnRegister.click();
@@ -87,6 +89,7 @@ describe('signup', () => {
       onNavigate,
       emailError,
       passwordError,
+      userInput,
     );
   });
 });

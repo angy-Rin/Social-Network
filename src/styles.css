@@ -288,7 +288,7 @@ h2{
 
 
 
-.signUp-form .btnGoogle{
+.signUp-form, .btnGoogle{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -301,12 +301,11 @@ h2{
     border-radius: 1rem;
     width: 12rem;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-}
-.signUp-form .btnGoogle{
-    width: 12rem;
     text-align: center;
-
+    
+    
 }
+
 .btnGoogle img{
     width: 2rem;
     
@@ -393,20 +392,6 @@ h2{
     border-radius: 50%;
   }
   
-  .btnGoogle{
-      
-      text-decoration: none;
-      border: none;
-      background-color: #1B9AAA;
-      color: #F8FFE5;
-      padding: 0.7rem;
-      border-radius: 1rem;
-      height: 6vh;
-      width: 12rem;
-      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-      font-weight: 600;
-      font-size: 1.5rem;
-  }
   .btnLogin{
       
     text-decoration: none;
