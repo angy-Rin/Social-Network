@@ -25,7 +25,7 @@ export const home = (onNavigate) => {
   spanGram.classList.add('gram');
 
   imgHome.setAttribute('alt', 'home-img');
-  imgHome.setAttribute('src', 'images/woman-cat-dog.png');
+  imgHome.setAttribute('src', '/assets/woman-cat-dog.png');
   btnSignUpHome.setAttribute('type', 'button');
   btnSignInHome.setAttribute('type', 'button');
   imgLogo.setAttribute('alt', 'logo-img');

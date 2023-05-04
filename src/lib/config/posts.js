@@ -1,4 +1,4 @@
-import { addDoc, getDocs, serverTimestamp } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js';
+import { addDoc, getDocs, serverTimestamp } from 'firebase/firestore';
 import { colRef, auth } from './firebaseconfig.js';
 
 getDocs(colRef)
