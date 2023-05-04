@@ -1,9 +1,9 @@
-import { home } from './templates/home';
-import { signIn } from './templates/signIn';
-import { signup } from './templates/signUp';
-import verification from './templates/verification';
-import { page404 } from './templates/page404';
-import { wall } from './templates/wall';
+import { home } from './templates/home.js';
+import { signIn } from './templates/signIn.js';
+import { signup } from './templates/signUp.js';
+import verification from './templates/verification.js';
+import { page404 } from './templates/page404.js';
+import { wall } from './templates/wall.js';
 
 const root = document.getElementById('content');
 const routes = [
@@ -49,3 +49,4 @@ window.addEventListener('popstate', () => {
 });
 
 onNavigate(window.location.pathname || defaultRoute);
+console.log('hola');

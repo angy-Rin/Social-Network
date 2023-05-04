@@ -1,4 +1,4 @@
-import { googleLogin, login } from '../lib/config/auth';
+import { googleLogin, login } from '../lib/config/auth.js';
 
 export const signIn = (onNavigate) => {
   const signInSection = document.createElement('section');

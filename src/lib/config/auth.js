@@ -6,8 +6,8 @@ import {
   signInWithEmailAndPassword,
   sendEmailVerification,
   updateProfile,
-} from 'firebase/auth';
-import { auth } from './firebaseconfig';
+} from 'https://www.gstatic.com/firebasejs/9.4.0/firebase-auth.js';
+import { auth } from './firebaseconfig.js';
 
 function errorMessages(errorCode, emailError, passwordError) {
   if (errorCode === 'auth/email-already-in-use') {

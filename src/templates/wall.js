@@ -1,6 +1,6 @@
-import { getDocs, query, orderBy } from 'firebase/firestore';
-import { colRef } from '../lib/config/firebaseconfig';
-import { posting } from '../lib/config/posts';
+import { getDocs, query, orderBy } from 'https://www.gstatic.com/firebasejs/9.19.1/firebase-firestore.js';
+import { colRef } from '../lib/config/firebaseconfig.js';
+import { posting } from '../lib/config/posts.js';
 
 export const wall = () => {
   const wallSection = document.createElement('section');

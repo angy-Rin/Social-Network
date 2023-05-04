@@ -1,4 +1,4 @@
-import { authFunction, googleLogin } from '../lib/config/auth';
+import { authFunction, googleLogin } from '../lib/config/auth.js';
 
 export const signup = (onNavigate) => {
   const signupSection = document.createElement('section');
