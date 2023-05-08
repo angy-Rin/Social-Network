@@ -25,7 +25,6 @@ export function posting(input, form) {
     .then(() => {
       form.reset();
     });
-  console.log(getDocs(colRef));
 }
 
 export function deletePost(postId) {

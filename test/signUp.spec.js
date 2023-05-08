@@ -1,7 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-
+/* eslint-disable jest/no-focused-tests */
+/* eslint-disable max-len */
 import { home } from '../src/templates/home.js';
 import { signup } from '../src/templates/signUp.js';
 import { googleLogin } from '../src/lib/config/auth.js';
@@ -10,6 +11,7 @@ import { errorMessages } from '../src/lib/index.js';
 jest.mock('../src/lib/config/auth', () => ({
   googleLogin: jest.fn(),
   login: jest.fn(),
+  registerUserWithEmailAndPassword: jest.fn(),
 }));
 
 describe('home', () => {
@@ -62,38 +64,47 @@ describe('signup', () => {
     expect(btnRegister).not.toBe(null);
   });
 
-  it('debe navegar a SignIn al hacer click en el boton de ingresar', () => {
+  test('registerBtn click event should call registerUserWithEmailAndPassword and navigate to /verification', async () => {
     const onNavigate = jest.fn();
-    const signupSection = signup(onNavigate);
-    const signInLink = signupSection.querySelector('#link-signIn');
-    signInLink.click();
-    expect(onNavigate).toHaveBeenCalledWith('/signin');
-  });
-
-  // eslint-disable-next-line max-len
-  /*   it.skip('authFunction debe ser llamado cuando se hace click en el botón de registrarse', () => {
-    const onNavigate = jest.fn();
-    const signupSection = signup(onNavigate);
-    const btnRegister = signupSection.querySelector('.btnRegister');
+    const registerUserWithEmailAndPassword = jest.fn().mockResolvedValue();
+    const signupSection = signup(onNavigate, registerUserWithEmailAndPassword);
+    const registerBtn = signupSection.querySelector('.btnRegister');
     const emailInput = signupSection.querySelector('#userEmail');
     const passwordInput = signupSection.querySelector('#userPassword');
-    const emailError = signupSection.querySelector('#errorEmailMessage');
-    const passwordError = signupSection.querySelector('#errorPassMessage');
-    const userInput = signupSection.querySelector('#user-input');
+    const confirmPasswordInput = signupSection.querySelector('#user-input');
+    const emailError = signupSection.querySelector('#emailError');
+    const passwordError = signupSection.querySelector('#passwordError');
+
+    emailInput.value = 'test@test.com';
+    passwordInput.value = 'password123';
+    confirmPasswordInput.value = 'password123';
 
     // Click the register button
-    btnRegister.click();
+    expect(registerBtn).not.toBeNull();
+    registerBtn.click();
 
-    // Check that authFunction was called with the correct arguments
-    expect(authFunction).toHaveBeenCalledWith(
-      emailInput,
-      passwordInput,
-      onNavigate,
-      emailError,
-      passwordError,
-      userInput,
+    try {
+      await registerUserWithEmailAndPassword(
+        emailInput.value,
+        passwordInput.value,
+        confirmPasswordInput.value,
+      );
+
+      expect(onNavigate).toHaveBeenCalledWith('/verification');
+    } catch (error) {
+      throw new Error(`should not reject with valid parameters, got error: ${error}`);
+    }
+
+    expect(registerUserWithEmailAndPassword).toHaveBeenCalledTimes(1);
+    expect(registerUserWithEmailAndPassword).toHaveBeenCalledWith(
+      emailInput.value,
+      passwordInput.value,
+      confirmPasswordInput.value,
     );
-  }); */
+    expect(emailError.textContent).toBe('');
+    expect(passwordError.textContent).toBe('');
+  });
+
   it('debe navegar a Home al hacer click en el boton cerrar', () => {
     const onNavigate = jest.fn();
     const signupSection = signup(onNavigate);

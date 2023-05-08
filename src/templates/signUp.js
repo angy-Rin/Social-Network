@@ -55,24 +55,6 @@ export const signup = (onNavigate) => {
   hasAccount.textContent = '¿Ya tienes cuenta?';
   hasAccountLink.textContent = 'Ingresa aquí';
 
-  function authFunction(userEmail, userPassword, input) {
-    const email = userEmail.value;
-    const password = userPassword.value;
-    emailError.textContent = '';
-    passwordError.textContent = '';
-
-    registerUserWithEmailAndPassword(email, password, input.value)
-      .then(() => {
-      // Email verification sent successfully
-        onNavigate('/verification');
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        console.log(errorCode);
-        errorMessages(errorCode, emailError, passwordError);
-      });
-  }
-
   closeBtn.innerHTML = '&times;';
 
   closeBtn.addEventListener('click', () => {
@@ -83,7 +65,21 @@ export const signup = (onNavigate) => {
   btnGoogle.appendChild(document.createTextNode('Acceder con Google'));
 
   registerBtn.addEventListener('click', () => {
-    authFunction(emailInput, passwordInput, userInput);
+    const email = emailInput.value;
+    const password = passwordInput.value;
+    emailError.textContent = '';
+    passwordError.textContent = '';
+
+    registerUserWithEmailAndPassword(email, password, userInput.value)
+      .then(() => {
+      // Email verification sent successfully
+        onNavigate('/verification');
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        console.log(errorCode);
+        errorMessages(errorCode, emailError, passwordError);
+      });
   });
 
   hasAccountLink.addEventListener('click', () => {
