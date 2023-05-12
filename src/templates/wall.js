@@ -1,5 +1,3 @@
-import { onSnapshot, query, orderBy } from 'firebase/firestore';
-import { auth, colRef } from '../lib/config/firebaseconfig.js';
 import {
   posting,
   deletePost,
@@ -8,8 +6,10 @@ import {
   dislike,
   likecat,
   dislikecat,
+  postData,
 } from '../lib/config/posts.js';
 import { signOutUser } from '../lib/config/auth.js';
+import { auth } from '../lib/config/firebaseconfig.js';
 
 export const wall = (onNavigate) => {
   const wallSection = document.createElement('section');
@@ -243,13 +243,12 @@ export const wall = (onNavigate) => {
       });
   });
 
-  const orderedQuery = query(colRef, orderBy('timestamp', 'desc'));
-  onSnapshot(orderedQuery, (querySnapshot) => {
+  postData((querySnapshot) => {
     postsSection.innerHTML = '';
     querySnapshot.forEach((pos) => {
       const post = document.createElement('article');
       post.className = 'post';
-
+      console.log('HOLA');
       const postHeader = document.createElement('div');
       postHeader.className = 'post-header';
 
@@ -320,7 +319,6 @@ export const wall = (onNavigate) => {
           confirmationModal.style.display = 'none';
         });
       });
-
       if (pos.data().userid === auth.currentUser.displayName) {
         frameOptions.appendChild(editBtn);
         frameOptions.appendChild(deleteButton);

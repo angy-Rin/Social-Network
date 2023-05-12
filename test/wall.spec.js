@@ -3,9 +3,23 @@
  */
 import { wall } from '../src/templates/wall';
 import { signOutUser } from '../src/lib/config/auth';
+import { posting, postData } from '../src/lib/config/posts';
 
 jest.mock('../src/lib/config/auth', () => ({
   signOutUser: jest.fn(() => Promise.resolve()),
+  getAuth: () => ({
+    currentUser: {
+      displayName: 'John Doe',
+    },
+  }),
+}));
+jest.mock('../src/lib/config/posts', () => ({
+  posting: jest.fn(),
+  postData: jest.fn(),
+}));
+
+jest.mock('../src/lib/config/firebaseconfig', () => ({
+  auth: jest.fn(),
 }));
 
 describe('wall', () => {
@@ -55,26 +69,66 @@ describe('wall', () => {
     expect(onNavigate).toHaveBeenCalledWith('/');
   });
 
-  test('form submission should not trigger posting function if input value is empty', () => {
-  // create test input and form elements
-    const input = document.createElement('input');
-    input.value = '';
-    const form = document.createElement('form');
-    form.appendChild(input);
+  test('form submission should trigger posting function if input value is not empty', () => {
+    // Create test input and form elements
+    const container = document.createElement('section');
+    container.append(wall());
+    const form = container.querySelector('.form-yourpost');
+    const input = container.querySelector('.your-postInput');
+    input.value = 'Some post text';
 
-    // create mock posting function
-    const posting = jest.fn();
-
-    // simulate form submission
+    // Simulate form submission
     form.dispatchEvent(new Event('submit', { bubbles: true }));
 
-    // ensure posting function is not called
-    expect(posting).not.toHaveBeenCalled();
+    // Ensure posting function is called with the specified arguments
+    expect(posting).toHaveBeenCalledWith(input, form);
   });
 
   it('deberia de renderizar la pantalla wall correctamente', () => {
     const container = document.createElement('section');
     container.append(wall());
     expect(container.innerHTML).toMatchSnapshot();
+  });
+  test('El evento de clic debe agregar o eliminar la clase "active" en sectionMenu', () => {
+    const hamburguerArticle = wallSection.querySelector('.hamburger');
+    const sectionMenu = wallSection.querySelector('.section-menu');
+
+    hamburguerArticle.click();
+    expect(sectionMenu.classList.contains('active')).toBe(true);
+
+    hamburguerArticle.click();
+    expect(sectionMenu.classList.contains('active')).toBe(false);
+  });
+  test('El evento de clic para el boton close debe agregar o eliminar la clase "active" en sectionMenu', () => {
+    const btnCloseMenu = wallSection.querySelector('.btn-close-menu');
+    const sectionMenu = wallSection.querySelector('.section-menu');
+
+    btnCloseMenu.click();
+    expect(sectionMenu.classList.contains('active')).toBe(true);
+
+    btnCloseMenu.click();
+    expect(sectionMenu.classList.contains('active')).toBe(false);
+  });
+  it('should render posts correctly', () => {
+    const mockQuerySnapshot = {
+      forEach: jest.fn((callback) => {
+        const mockPostData = {
+          userid: 'user1',
+          text: 'Some post text',
+          likes: [],
+          likescat: [],
+        };
+        const mockPos = {
+          id: 'post1',
+          data: () => mockPostData,
+        };
+        callback(mockPos);
+      }),
+    };
+
+    postData.mockImplementationOnce((callback) => {
+      callback(mockQuerySnapshot);
+    });
+    wall();
   });
 });

@@ -36,8 +36,10 @@ export function posting(input, form) {
       form.reset();
     });
 }
-
-export const postData = (callback) => onSnapshot(query(colRef, orderBy('time', 'desc')), callback);
+// Una vez que se produzcan cambios en los datos, la función callback se invocará y se pasará como
+// argumento el resultado de la consulta modificada.
+const orderedQuery = query(colRef, orderBy('timestamp', 'desc'));
+export const postData = (callback) => onSnapshot(orderedQuery, callback);
 
 export function deletePost(postId) {
   const postDocRef = doc(colRef, postId);
